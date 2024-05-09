@@ -18,34 +18,33 @@ public class MainGameLoop {
 
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
-		StaticShader shader = new StaticShader();
-		Renderer renderer = new Renderer(shader);
 
 
 		RawModel model = OBJLoader. loadOBJModel("dragon", loader);
 
-		ModelTexture texture = new ModelTexture(loader.loadTexture("lebron"));
-		TexturedModel staticModel = new TexturedModel(model, texture);
-		Entity entity = new Entity(staticModel, new Vector3f(0,0,-25),0,0,0,1);
-		Light light = new Light(new Vector3f(0,10,-25), new Vector3f(1,1,1));
+		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("stallTexture")));
+
+		ModelTexture texture = staticModel.getTexture();
+		texture.setShineDamper(10);
+		texture.setRefectivity(1);
+
+
+		Entity entity = new Entity(staticModel, new Vector3f(0,-5,-25),0,0,0,1);
+		Light light = new Light(new Vector3f(0,-5,-22), new Vector3f(1,1,1));
 		Camera camera = new Camera();
 
-
+		MasterRenderer renderer = new MasterRenderer();
 
 		while(!Display.isCloseRequested()){
 			//game logic
 			entity.increaseRotation(0,0.1f,0);
 			camera.move();
-			renderer.prepare();
-			shader.start();
-			shader.loadLight(light);
-			shader.loadViewMatrix(camera);
-			renderer.render(entity, shader);
-			shader.stop();
+			renderer.processEntity(entity);
+			renderer.render(light,camera);
 			DisplayManager.updateDisplay();
 		}
 
-		shader.cleanUp();
+		renderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
 
