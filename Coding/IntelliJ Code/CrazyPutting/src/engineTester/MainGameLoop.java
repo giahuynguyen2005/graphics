@@ -45,15 +45,15 @@ public class MainGameLoop {
 		texture.setRefectivity(1);
 
 
-		Entity entity = new Entity(staticModel, new Vector3f(0,-5,-25),0,0,0,1);
+		Entity entity = new Entity(staticModel, new Vector3f(0,0,0),0,0,0,1);
 		Light light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 
 		Terrain terrain = new Terrain(0,-1,loader, texturePack, blendMap);
-		Terrain terrain2 = new Terrain(-1,-1,loader, texturePack, blendMap);
+//		Terrain terrain2 = new Terrain(-1,-1,loader, texturePack, blendMap);
 
 		RawModel bunnyModel = OBJLoader.loadOBJModel("stanfordBunny", loader);
 		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white")));
-		Player player = new Player(stanfordBunny, new Vector3f(0,0,-25),0,0,0,1);
+		Player player = new Player(stanfordBunny, new Vector3f(0,0,0),0,0,0,1);
 		Camera camera = new Camera(player);
 
 		MasterRenderer renderer = new MasterRenderer();
@@ -61,11 +61,11 @@ public class MainGameLoop {
 		while(!Display.isCloseRequested()){
 			entity.increaseRotation(0,0.1f,0);
 			camera.move();
-			player.move();
+			player.move(terrain);
 
 			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
-			renderer.processTerrain(terrain2);
+//			renderer.processTerrain(terrain2);
 			renderer.processEntity(entity);
 
 			renderer.render(light,camera);
