@@ -9,6 +9,7 @@ out vec3 surfaceNormal;
 out vec3 toLightVector;
 out vec3 toCameraVector;
 out float visibility;
+out float height; // Add this line
 
 uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
@@ -32,4 +33,5 @@ void main(void){
     float distance = length(positionRelativeToCam.xyz);
     visibility = exp(-pow((distance*density),gradient));
     visibility = clamp(visibility, 0.0, 1.0);
+    height = worldPosition.y; // Use worldPosition.y as the height
 }

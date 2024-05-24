@@ -6,7 +6,7 @@ public class test {
         /**
          * Initialize all parameters through InputModule (the most essential things - setStateVector() and setTerrain()),
          * then ask for Physics object by getPhysics(), and simulate motion by nextPosition() method.
-         * If you want to use AI player, you have to creat an object of Bots class, call one of its methods, which will return initial velocities,
+         * If you want to use AI player, you have to create an object of Bots class, call one of its methods, which will return initial velocities,
          * and then reset the physics object with these velocities and initial position. After that, you can simulate the motion.
          */
         double initialX = -3; double initialY = -0;

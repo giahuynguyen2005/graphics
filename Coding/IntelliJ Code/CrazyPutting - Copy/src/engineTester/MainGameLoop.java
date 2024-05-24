@@ -32,20 +32,20 @@ public class MainGameLoop {
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
 
-		ModelData data = OBJFileLoader.loadOBJ("dragon");
-		RawModel dragonModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(),
+		ModelData data = OBJFileLoader.loadOBJ("target");
+		RawModel targetModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(),
 				data.getNormals(), data.getIndices());
 
-//		RawModel model = OBJLoader. loadOBJModel("dragon", loader);
+		RawModel model = OBJLoader. loadOBJModel("target", loader);
 
-//		TexturedModel staticModel = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("white")));
+		TexturedModel staticModel = new TexturedModel(targetModel, new ModelTexture(loader.loadTexture("white")));
 
-//		ModelTexture texture = staticModel.getTexture();
-//		texture.setShineDamper(10);
-//		texture.setRefectivity(1);
+		ModelTexture texture = staticModel.getTexture();
+		texture.setShineDamper(10);
+		texture.setRefectivity(1);
 
 
-//		Entity entity = new Entity(staticModel, new Vector3f(0,0,0),0,0,0,0.3f);
+		Entity target = new Entity(staticModel, new Vector3f(100,0,100),0,0,0,2f);
 		Light light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 
 		Terrain terrain = new Terrain(0,0,loader, texturePack, blendMap);
@@ -53,20 +53,22 @@ public class MainGameLoop {
 
 		RawModel bunnyModel = OBJLoader.loadOBJModel("golfBall", loader);
 		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white_texture")));
-		Player player = new Player(stanfordBunny, new Vector3f(0,0,0),0,0,0,1f);
+		Player player = new Player(stanfordBunny, new Vector3f(0,0,0),0,0,0,1f, terrain);
 		Camera camera = new Camera(player);
+		player.setCamera(camera);
 
 		MasterRenderer renderer = new MasterRenderer();
 
 		while(!Display.isCloseRequested()){
 //			entity.increaseRotation(0,0.1f,0);
 			camera.move();
-			player.move(terrain);
+			player.move();
+			player.updateBallPosition();
 
 			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
 //			renderer.processTerrain(terrain2);
-//			renderer.processEntity(entity);
+			renderer.processEntity(target);
 
 			renderer.render(light,camera);
 			DisplayManager.updateDisplay();

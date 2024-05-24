@@ -42,7 +42,6 @@ public class TerrainShader extends ShaderProgram {
         location_gTexture = super.getUniformLocation("gTexture");
         location_bTexture = super.getUniformLocation("bTexture");
         location_blendMap = super.getUniformLocation("blendMap");
-
     }
 
     public void connectTextureUnits() {
@@ -86,5 +85,4 @@ public class TerrainShader extends ShaderProgram {
     public void loadProjectionMatrix(Matrix4f projection) {
         super.loadMatrix(location_projectionMatrix, projection);
     }
-
 }

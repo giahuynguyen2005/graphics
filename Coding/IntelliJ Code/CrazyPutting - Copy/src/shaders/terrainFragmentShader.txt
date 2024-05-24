@@ -5,6 +5,7 @@ in vec3 surfaceNormal;
 in vec3 toLightVector;
 in vec3 toCameraVector;
 in float visibility;
+in float height; // Add this line
 
 out vec4 out_Colour;
 
@@ -46,8 +47,10 @@ void main(void){
     float dampedFactor = pow(specularFactor, shineDamper);
     vec3 finalSpecular = dampedFactor * reflectivity * lightColour;
 
-
-	out_Colour = vec4(diffuse,1.0) * totalColour + vec4(finalSpecular,1.0);
-	out_Colour = mix(vec4(skyColour,1.0), out_Colour, visibility);
-
+    if (height < 0.0) {
+        out_Colour = vec4(0.0, 0.0, 1.0, 1.0); // Render blue if height is negative
+    } else {
+        out_Colour = vec4(diffuse,1.0) * totalColour + vec4(finalSpecular,1.0);
+        out_Colour = mix(vec4(skyColour,1.0), out_Colour, visibility);
+    }
 }

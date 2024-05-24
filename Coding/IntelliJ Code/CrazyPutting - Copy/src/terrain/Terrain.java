@@ -11,7 +11,7 @@ import toolbox.Maths;
 
 public class Terrain {
 
-    private static final float SIZE = 100;
+    private static final float SIZE = 1000;
     private static final int VERTEX_COUNT = 128;
     private static final float MAX_HEIGHT = 10;
 //    private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
@@ -95,6 +95,7 @@ public class Terrain {
 
     public static float getHeight(float x, float y) {
         return (float) (0.4 * (0.9 - Math.exp(-(x * x + y * y) / 8)));
+//        return (float) (Math.sin(x)+Math.cos(y));
     }
 
     public float getX() {
@@ -116,6 +117,8 @@ public class Terrain {
     public TerrainTexture getBlendMap() {
         return blendMap;
     }
+
+    public static float getSize() {return SIZE;}
 
     public float getHeightOfTerrain(float worldX, float worldZ) {
         float terrainX = worldX - this.x;
